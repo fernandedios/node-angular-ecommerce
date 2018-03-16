@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -16,4 +18,19 @@ const UserSchema = new Schema({
     postalCode: String
   },
   created: { type: Date, default: Date.now }
+});
+
+// middleware
+UserSchema.pre('save', (next) => {
+  let user = this;
+
+  // don't do anything if password is not changed
+  if (!user.isModified('password')) return next();
+
+  bcrypt.hash(user.password, null, null, (err, hash) => {
+    if (err) return next();
+
+    user.password = hash;
+    next();
+  });
 });
