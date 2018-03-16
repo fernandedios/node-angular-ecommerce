@@ -10,7 +10,7 @@ export class RestApiService {
     return this.http.get(link).toPromise();
   }
 
-  post(link: string) {
+  post(link: string, body: any) {
     return this.http.post(link, body).toPromise();
   }
 }

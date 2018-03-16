@@ -1,3 +1,5 @@
-<p>
-  message works!
+<p *ngIf="data.message">
+  <ngb-alert [type]="data.messageType" [dismissable]="false">
+    {{ data.message }}
+  </ngb-alert>
 </p>
