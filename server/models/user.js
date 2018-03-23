@@ -34,3 +34,9 @@ UserSchema.pre('save', (next) => {
     next();
   });
 });
+
+// custom method
+UserSchema.methods.comparePassword = (password) => {
+  // this.password is the stored password hash in db
+  return bcrypt.compareSync(password, this.password);
+};
