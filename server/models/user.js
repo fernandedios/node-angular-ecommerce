@@ -22,7 +22,8 @@ const UserSchema = new Schema({
 });
 
 // middleware
-UserSchema.pre('save', (next) => {
+// do NOT use fat arrow functions, changes 'this'
+UserSchema.pre('save', function(next) {
   let user = this;
 
   // don't do anything if password is not changed
@@ -37,7 +38,7 @@ UserSchema.pre('save', (next) => {
 });
 
 // custom methods
-UserSchema.methods.comparePassword = (password) => {
+UserSchema.methods.comparePassword = function(password) {
   // this.password is the stored password hash in db
   return bcrypt.compareSync(password, this.password);
 };
@@ -53,3 +54,5 @@ UserSchema.methods.gravatar = (size) => {
 
   return `${url}${md5}?s=${size}&d=retro`;
 };
+
+module.exports = mongoose.model('User', UserSchema);

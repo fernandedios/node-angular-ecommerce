@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+const accountRoutes = require('./routes/accountRoutes');
+
 const app = express();
 const { port, database, secretKey } = require('./config/secret');
 
@@ -18,11 +20,8 @@ app.use(bodyParser.urlencoded({ extended: false })); // will also need to read o
 app.use(morgan('dev'));
 app.use(cors());
 
-app.get('/', (req, res, next) => {
-  res.json({
-    user: 'Fernan de Dios'
-  });
-});
+// routes
+app.use('/api/accounts', accountRoutes);
 
 app.listen(port, (err) => {
   if (err) console.log(err);
