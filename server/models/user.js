@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const crypto = require('crypto'); // builtin js library
 
 const Schema = mongoose.Schema;
 
@@ -35,8 +36,20 @@ UserSchema.pre('save', (next) => {
   });
 });
 
-// custom method
+// custom methods
 UserSchema.methods.comparePassword = (password) => {
   // this.password is the stored password hash in db
   return bcrypt.compareSync(password, this.password);
+};
+
+UserSchema.methods.gravatar = (size) => {
+  const url = 'https://gravatar.com/avatar/';
+  if (!this.size) size = 200;
+  if (!this.email) return `${url}?s=${size}&d=retro`;
+
+  const md5 = crypto.createHash('md5')
+    .update(this.email)
+    .digest('hex');
+
+  return `${url}${md5}?s=${size}&d=retro`;
 };
