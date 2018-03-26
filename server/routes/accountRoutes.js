@@ -37,9 +37,11 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
+
 router.post('/login', async (req, res, next) => {
+  const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email: req.body.user });
+    const user = await User.findOne({ email });
     const failed = {
       success: false,
       message: 'Authentication failed. User not found.'
@@ -49,7 +51,7 @@ router.post('/login', async (req, res, next) => {
       res.json(failed);
     }
     else if (user) {
-      const validPassword = user.comparePassword(req.body.password);
+      const validPassword = user.comparePassword(password);
       if(!validPassword) {
         res.json(failed);
       }
