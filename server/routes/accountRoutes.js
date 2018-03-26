@@ -37,4 +37,35 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
+router.post('/login', async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.user });
+    const failed = {
+      success: false,
+      message: 'Authentication failed. User not found.'
+    };
+
+    if(!user) {
+      res.json(failed);
+    }
+    else if (user) {
+      const validPassword = user.comparePassword(req.body.password);
+      if(!validPassword) {
+        res.json(failed);
+      }
+      else {
+        const token = jwt.sign({ user }, secretKey, { expiresIn: '7d' });
+        res.json({
+          success: true,
+          message: "Login successful.",
+          token
+        });
+      }
+    }
+  }
+  catch(err) {
+    throw err;
+  }
+})
+
 module.exports = router;
