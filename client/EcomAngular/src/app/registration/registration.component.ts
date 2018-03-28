@@ -32,7 +32,7 @@ export class RegistrationComponent implements OnInit {
         if (this.password) {
           if (this.password1) {
             if (this.password === this.password1) {
-              return truel
+              return true;
             }
             else {
               this.data.error('Passwords do not match.');
@@ -75,7 +75,7 @@ export class RegistrationComponent implements OnInit {
       }
     }
     catch (err) {
-      this.data.error(error['message']);
+      this.data.error(err['message']);
     }
 
     this.btnDisabled = false;
