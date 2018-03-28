@@ -9,6 +9,10 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
+    path: 'register',
+    component: RegistrationComponent
+  }
+  {
     // if no match, redirect to home ''
     path: '**',
     redirectTo: ''
