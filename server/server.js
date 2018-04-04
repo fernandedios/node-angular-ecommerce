@@ -7,7 +7,7 @@ const cors = require('cors');
 const accountRoutes = require('./routes/accountRoutes');
 
 const app = express();
-const { port, database, secretKey } = require('./config/secret');
+const { port, database } = require('./config/secret');
 
 // connect to mongodb
 mongoose.connect(database).then(() => {
