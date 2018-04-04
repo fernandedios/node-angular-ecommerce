@@ -61,7 +61,7 @@ export class RegistrationComponent implements OnInit {
       if (this.validate()) {
         const { name, email, password, isSeller } = this;
         const data = await this.rest.post(
-          'http://localhost/3030/api/accounts/signup',
+          'http://localhost:3030/api/accounts/signup',
           { name, email, password, isSeller }
         );
 
