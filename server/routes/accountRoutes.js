@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { secretKey } = require('../config/secret');
 
 const User = require('../models/user');
+const checkJWT = require('../middlewares/checkJwt');
 
 router.post('/signup', async (req, res, next) => {
   const { name, email, password, isSeller } = req.body;
@@ -68,6 +69,22 @@ router.post('/login', async (req, res, next) => {
   catch(err) {
     throw err;
   }
-})
+});
+
+router.route('/profile')
+  .get(checkJWT, async (req, res, next) => {
+    try {
+      const user = await User.findOne({ _id: req.decoded.user._id });
+      res.json({
+        success: true,
+        message: 'Successful',
+        user
+      })
+    }
+    catch(err) {
+
+    }
+  })
+  .post()
 
 module.exports = router;
