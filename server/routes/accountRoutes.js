@@ -82,9 +82,27 @@ router.route('/profile')
       })
     }
     catch(err) {
-
+      next(err);
     }
   })
-  .post()
+  .post(checkJWT, async (req, res, next) => {
+    try {
+      const user = await User.findOne({ _id: req.decoded.user._id });
+
+      if(req.body.name) user.name = req.body.name;
+      if(req.body.email) user.email = req.body.email;
+      if(req.body.password) user.password = req.body.password;
+      user.isSeller = req.body.isSeller;
+
+      await user.save();
+      res.json({
+        success: true,
+        message: 'User profile updated successfully'
+      });
+    }
+    catch (err) {
+      next(err);
+    }
+  });
 
 module.exports = router;
