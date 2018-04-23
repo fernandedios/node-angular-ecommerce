@@ -105,4 +105,40 @@ router.route('/profile')
     }
   });
 
+  router.route('/address')
+    .get(checkJWT, async (req, res, next) => {
+      try {
+        const { address } = await User.findOne({ _id: req.decoded.user._id });
+        res.json({
+          success: true,
+          message: 'Successful',
+          address
+        })
+      }
+      catch(err) {
+        next(err);
+      }
+    })
+    .post(checkJWT, async (req, res, next) => {
+      try {
+        const user = await User.findOne({ _id: req.decoded.user._id });
+
+        if (req.body.addr1) user.address.addr1 = req.body.addr1;
+        if (req.body.addr2) user.address.addr2 = req.body.addr2;
+        if (req.body.city) user.address.city = req.body.city;
+        if (req.body.state) user.address.state = req.body.state;
+        if (req.body.country) user.address.country = req.body.country;
+        if (req.body.postalCode) user.address.postalCode = req.body.postalCode;
+
+        await user.save();
+        res.json({
+          success: true,
+          message: 'User address updated successfully'
+        });
+      }
+      catch (err) {
+        next(err);
+      }
+    });
+
 module.exports = router;
