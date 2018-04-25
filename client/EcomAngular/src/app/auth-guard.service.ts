@@ -8,13 +8,14 @@ export class AuthGuardService implements CanActivate {
   constructor(private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // check login token
+    // check login token, if logged in
     if(localStorage.getItem('token')) {
-      this.router.navigate(['/']);
-      return false;
+      // allow access to profile page
+      return state.url.startsWith('/profile') ? true : (this.router.navigate(['/']), false);
     }
     else {
-      return true;
+      // block access to profile page
+      return state.url.startsWith('/profile') ?  (this.router.navigate(['/']), false) : true;
     }
   }
 
