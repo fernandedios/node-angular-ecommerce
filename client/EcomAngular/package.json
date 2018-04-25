@@ -1,6 +1,7 @@
 {
-  "name": "ecom-angular",
+  "name": "node-angular-ecommerce-server",
   "version": "0.0.0",
+  "author": "Fernan de Dios",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
