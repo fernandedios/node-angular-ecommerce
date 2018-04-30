@@ -20,7 +20,7 @@ export class AddressComponent implements OnInit {
         'http://localhost:3030/api/accounts/address'
       );
 
-      if (JSON.stringify(data[address]) === '{}' && this.data.message === '') {
+      if (JSON.stringify(data['address']) === '{}' && this.data.message === '') {
         this.data.warning('You have not entered your shipping address. Please enter your shipping address')
       }
 
@@ -29,5 +29,23 @@ export class AddressComponent implements OnInit {
     catch (error) {
       this.data.error(error['message']);
     }
+  }
+
+  async updateAddress() {
+    this.btnDisabled = true;
+    try {
+      const res = await this.rest.post(
+        'http://localhost:3030/api/accounts/address',
+        this.currentAddress
+      );
+
+      res['success']
+        ? (this.data.success(res['message']), await this.data.getProfile())
+        : this.data.error(res['message']);
+    }
+    catch (error) {
+      this.data.error(error['message']);
+    }
+    this.btnDisabled = false;
   }
 }
