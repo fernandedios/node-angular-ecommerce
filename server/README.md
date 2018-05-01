@@ -16,8 +16,3 @@ node-angular-ecommerce-server* © 2018, Fernan de Dios. Released under the [MIT 
 > Twitter [@fernan_de_dios](https://twitter.com/fernan_de_dios)
 
 [MIT License]: http://mit-license.org/
-[Facebook Application]: http://developers.facebook.com/
-[Mailchimp Account]: http://mailchimp.com/
-[Stripe Account]: https://stripe.com/
-[Wistia Account]: https://wistia.com/
-[application preview]: https://node-elearning.herokuapp.com/
