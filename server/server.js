@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const accountRoutes = require('./routes/accountRoutes');
+const mainRoutes = require('./routes/mainRoutes');
 
 const app = express();
 const { port, database } = require('./config/secret');
@@ -21,6 +22,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 // routes
+app.use('/api/main', mainRoutes);
 app.use('/api/accounts', accountRoutes);
 
 app.listen(port, (err) => {
