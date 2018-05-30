@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const accountRoutes = require('./routes/accountRoutes');
 const mainRoutes = require('./routes/mainRoutes');
+const sellerRoutes = require('./routes/sellerRoutes');
 
 const app = express();
 const { port, database } = require('./config/secret');
@@ -24,6 +25,7 @@ app.use(cors());
 // routes
 app.use('/api/main', mainRoutes);
 app.use('/api/accounts', accountRoutes);
+app.use('/api/seller', sellerRoutes);
 
 app.listen(port, (err) => {
   if (err) console.log(err);
