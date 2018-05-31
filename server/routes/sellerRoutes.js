@@ -23,10 +23,22 @@ const upload = multer({
 });
 
 router.route('/products')
-    .get((req, res, next) => {
-        res.json({
-            success: true
-        });
+    .get(checkJWT, async (req, res, next) => {
+        try {
+            const products = await Product.find({ owner: req.decoded.user._id })
+                .populate('owner')
+                .populate('category')
+                .exec();
+
+            res.json({
+                success: true,
+                message: 'Products fetched successfully',
+                products
+            });
+        }
+        catch (err) {
+            res.next(err);
+        }
     })
     .post([checkJWT, upload.single('product_picture')], async (req, res, next) => {
         let product = new Product();
@@ -39,7 +51,6 @@ router.route('/products')
 
         try {
             await product.save();
-
             res.json({
                 success: true,
                 message: 'Successfully added the product'
