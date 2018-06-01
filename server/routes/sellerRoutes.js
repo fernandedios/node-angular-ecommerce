@@ -3,6 +3,8 @@ const aws = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 
+const faker = require('faker');
+
 const Product = require('../models/product');
 const checkJWT = require('../middlewares/checkJwt');
 const { awsAccessKeyID, awsAccessSecretKey, awsBucketName } = require('../config/secret');
@@ -61,5 +63,23 @@ router.route('/products')
         }
         
     });
+
+// FOR TESTING ONLY
+router.get('/faker/test', (req, res, next) => {
+    for (let i = 0; i < 20; i++) {
+        let product = new Product();
+        product.category = '5b0e18ef68cd3807405b0611'
+        product.owner = '5ab49af494f7bd0aa9655a0b';
+        product.image = faker.image.food();
+        product.title = faker.commerce.productName();
+        product.description = faker.lorem.words();
+        product.price = faker.commerce.price();
+        product.save();
+    }
+
+    res.json({
+        message: 'Successfully added 20'
+    });
+})
 
 module.exports = router;
